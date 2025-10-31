@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/* ===== COLORS - GLOBAL CSS ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colores Primarios & Neutros */
+  --color-primary: #dc2626;
+  --color-primary-light: #ef4444;
+  --color-primary-dark: #b91c1c;
+  
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-black: #000000;
+
+  /* Colores Secundarios */
+  --color-secondary: #2563eb;
+  --color-secondary-light: #3b82f6;
+  --color-secondary-dark: #1d4ed8;
+  
+  --color-accent: #8b5cf6;
+  --color-accent-light: #a78bfa;
+  --color-accent-dark: #7c3aed;
+
+  /* Estados Semánticos */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #2563eb;
+
+  /* Colores para Categorías/Datos */
+  --color-category-1: #3b82f6;
+  --color-category-2: #8b5cf6;
+  --color-category-3: #06b6d4;
+  --color-category-4: #10b981;
+  --color-category-5: #f59e0b;
+  --color-category-6: #ec4899;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ===== CLASES UTILITARIAS ===== */
+
+/* Colores de Texto */
+.text-primary { color: var(--color-primary); }
+.text-primary-light { color: var(--color-primary-light); }
+.text-primary-dark { color: var(--color-primary-dark); }
+
+.text-secondary { color: var(--color-secondary); }
+.text-accent { color: var(--color-accent); }
+
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-info { color: var(--color-info); }
+
+/* Fondos */
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-light { background-color: var(--color-primary-light); }
+.bg-primary-dark { background-color: var(--color-primary-dark); }
+
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent { background-color: var(--color-accent); }
+
+.bg-success { background-color: var(--color-success); }
+.bg-warning { background-color: var(--color-warning); }
+.bg-error { background-color: var(--color-error); }
+.bg-info { background-color: var(--color-info); }
+
+/* Bordes */
+.border-primary { border-color: var(--color-primary); }
+.border-success { border-color: var(--color-success); }
+.border-warning { border-color: var(--color-warning); }
+.border-error { border-color: var(--color-error); }
+.border-info { border-color: var(--color-info); }
+
+/* Hover States */
+.hover\:bg-primary:hover { background-color: var(--color-primary-dark); }
+.hover\:bg-secondary:hover { background-color: var(--color-secondary-dark); }
+.hover\:bg-accent:hover { background-color: var(--color-accent-dark); }
+
+.hover\:text-primary:hover { color: var(--color-primary-dark); }
+.hover\:text-secondary:hover { color: var(--color-secondary-dark); }
+
+/* Focus Rings */
+.focus-ring-primary:focus {
+  outline: none;
+  ring: 2px solid var(--color-primary);
+  ring-offset: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Gradientes */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+}
+
+/* Sombras con colores */
+.shadow-primary {
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1), 0 2px 4px -1px rgba(220, 38, 38, 0.06);
+}
+
+.shadow-success {
+  box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.1), 0 2px 4px -1px rgba(22, 163, 74, 0.06);
+}
+
+/* Estados de disabled */
+.disabled-primary:disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+}
+
+/* ===== UTILIDADES ESPECÍFICAS PARA COMPONENTES ===== */
+
+/* Botones base */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+/* Inputs base */
+.input-base {
+  width: 100%;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.input-base:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Badges base */
+.badge-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
 }

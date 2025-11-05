@@ -1,10 +1,12 @@
 'use client';
 
+import AddServiceModal from '@/components/servicios/AgregarServicioModal';
 import { Search, Plus, Filter, Edit, Trash2, Eye, FileText, Calendar } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ServiciosPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [openServiceModal, setOpenServiceModal] = useState(false);
   
   // Datos de ejemplo mejorados
   interface Servicio {
@@ -112,13 +114,14 @@ export default function ServiciosPage() {
         <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
           <button 
             onClick={handleGenerarCorte}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            className="flex bg-white items-center text-sm border gap-2 border-green-600 text-green-700 hover:text-white hover:bg-green-600 px-6 py-3 rounded-lg font-medium transition-colors"
           >
             <FileText size={20} />
             Generar Corte del Día
           </button>
           
-          <button className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+          <button className="flex rounded-lg bg-white px-4 py-3 text-sm font-medium border border-red-500 text-red-500 shadow-sm transition-all hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            onClick={() => setOpenServiceModal(true)}>
             <Plus size={20} />
             Nuevo Servicio
           </button>
@@ -389,6 +392,9 @@ export default function ServiciosPage() {
           </div>
         ))}
       </div>
+      {openServiceModal && (
+        <AddServiceModal setOpen={setOpenServiceModal} />
+      )}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 'use client';
 
+import AddPatientModal from '@/components/pacientes/AddPatientModal';
 import { Search, Plus, Filter, Edit, Trash2, Eye, Phone, Mail, MapPin, User } from 'lucide-react';
 import { useState } from 'react';
 
 export default function PacientesPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [openAddModal, setOpenAddModal] = useState(false);
   
   // Datos de ejemplo para pacientes
   const pacientes = [
@@ -144,7 +146,9 @@ export default function PacientesPage() {
           <p className="text-gray-600">Gestión de información de pacientes</p>
         </div>
         
-        <button className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors mt-4 lg:mt-0">
+        <button className="flex rounded-lg bg-white px-4 py-3 text-sm font-medium border border-red-500 text-red-500 shadow-sm transition-all hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          onClick={() => setOpenAddModal(true)}
+        >
           <Plus size={20} />
           Nuevo Paciente
         </button>
@@ -429,6 +433,8 @@ export default function PacientesPage() {
           </div>
         ))}
       </div>
+      {/* Agregar Patient Modal */}
+      {openAddModal && <AddPatientModal open={openAddModal} setOpen={setOpenAddModal} />}
     </div>
   );
 }

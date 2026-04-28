@@ -323,7 +323,12 @@ fn backend_env(app: &AppHandle, runtime_root: &Path) -> Result<HashMap<String, S
     .map_err(|error| format!("No se pudo crear el storage local: {error}"))?;
 
   let sqlite_path = data_root.join("econolab.sqlite");
-  let logo_path = runtime_root.join("public").join("logoeco.png");
+  let logo_path = [
+    runtime_root.join("public").join("econolab-brand.png"),
+    runtime_root.join("public").join("logoeco.png"),
+  ]
+  .into_iter()
+  .find(|candidate| candidate.exists());
 
   let mut env = HashMap::from([
     ("APP_RUNTIME_MODE".to_string(), "desktop-offline".to_string()),
@@ -359,7 +364,7 @@ fn backend_env(app: &AppHandle, runtime_root: &Path) -> Result<HashMap<String, S
     ),
   ]);
 
-  if logo_path.exists() {
+  if let Some(logo_path) = logo_path {
     env.insert(
       "LAB_LOGO_PATH".to_string(),
       logo_path.to_string_lossy().to_string(),

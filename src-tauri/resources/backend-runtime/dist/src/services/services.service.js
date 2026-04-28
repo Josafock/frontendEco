@@ -281,10 +281,11 @@ let ServicesService = class ServicesService {
             const right = doc.page.width - left;
             const pageBottom = doc.page.height - 40;
             const headerY = 40;
-            const headerCenterX = 150;
-            const headerCenterWidth = 228;
             const barcodeBoxWidth = 180;
             const barcodeBoxX = right - barcodeBoxWidth;
+            const logoBox = { x: left, y: headerY + 8, w: 118, h: 37 };
+            const headerCenterX = logoBox.x + logoBox.w + 14;
+            const headerCenterWidth = barcodeBoxX - headerCenterX - 16;
             const barcodeImageY = headerY + 50;
             const metaLeftX = left;
             const metaLeftWidth = 228;
@@ -292,20 +293,20 @@ let ServicesService = class ServicesService {
             const metaMiddleWidth = 170;
             const metaRightX = 462;
             const metaRightWidth = right - metaRightX;
-            const hasLogo = drawImageIfValid(logoPath, left, headerY + 6, {
-                fit: [96, 54],
+            const hasLogo = drawImageIfValid(logoPath, logoBox.x, logoBox.y, {
+                fit: [logoBox.w, logoBox.h],
             });
             if (!hasLogo) {
                 doc
-                    .rect(left, headerY + 6, 96, 54)
+                    .rect(logoBox.x, logoBox.y, logoBox.w, logoBox.h)
                     .strokeColor('#cccccc')
                     .stroke();
                 doc
                     .font('Helvetica')
                     .fontSize(8)
                     .fillColor('#666666')
-                    .text('LOGO', left, headerY + 26, {
-                    width: 96,
+                    .text('LOGO', logoBox.x, logoBox.y + 14, {
+                    width: logoBox.w,
                     align: 'center',
                 })
                     .fillColor('black');
@@ -531,6 +532,8 @@ let ServicesService = class ServicesService {
                 size: [ticketWidth, ticketHeight],
             });
             const chunks = [];
+            const logoBox = { w: 140, h: 44, x: (ticketWidth - 140) / 2, y: 16 };
+            const headerTextY = logoBox.y + logoBox.h + 8;
             doc.on('data', (chunk) => chunks.push(chunk));
             doc.on('error', (err) => reject(err instanceof Error
                 ? err
@@ -538,7 +541,9 @@ let ServicesService = class ServicesService {
             doc.on('end', () => resolve(Buffer.concat(chunks)));
             if (logoPath && fs.existsSync(logoPath)) {
                 try {
-                    doc.image(logoPath, (ticketWidth - 86) / 2, 16, { fit: [86, 42] });
+                    doc.image(logoPath, logoBox.x, logoBox.y, {
+                        fit: [logoBox.w, logoBox.h],
+                    });
                 }
                 catch {
                 }
@@ -547,28 +552,31 @@ let ServicesService = class ServicesService {
             doc
                 .font('Helvetica-Bold')
                 .fontSize(6.6)
-                .text(labName, 14, 66, { width: contentWidth, align: 'center' });
-            doc.fontSize(6.05).text(labSubtitle, 14, 76, {
+                .text(labName, 14, headerTextY, {
                 width: contentWidth,
                 align: 'center',
             });
-            doc.text(labAddress, 14, 85, {
+            doc.fontSize(6.05).text(labSubtitle, 14, headerTextY + 10, {
+                width: contentWidth,
+                align: 'center',
+            });
+            doc.text(labAddress, 14, headerTextY + 19, {
                 width: contentWidth,
                 align: 'center',
             });
             if (labAddress2) {
-                doc.text(labAddress2, 14, 93, {
+                doc.text(labAddress2, 14, headerTextY + 27, {
                     width: contentWidth,
                     align: 'center',
                 });
             }
             if (labPhone) {
-                doc.text(`TEL. ${labPhone}`, 14, 101, {
+                doc.text(`TEL. ${labPhone}`, 14, headerTextY + 35, {
                     width: contentWidth,
                     align: 'center',
                 });
             }
-            let y = 116;
+            let y = headerTextY + 50;
             doc.font('Helvetica-Bold').fontSize(6.8);
             doc.text(`FOLIO ${service.folio ?? ''}`, 14, y, { width: 104 });
             doc.text(`SUC: ${service.branchName ?? ''}`, 118, y, {

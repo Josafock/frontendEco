@@ -50,10 +50,11 @@ for (const filename of ["package.json", "package-lock.json"]) {
   }
 }
 
-const logoSource = path.join(backendDir, "src", "public", "logoeco.png");
-if (existsSync(logoSource)) {
-  mkdirSync(path.join(runtimeDir, "public"), { recursive: true });
-  copyFileSync(logoSource, path.join(runtimeDir, "public", "logoeco.png"));
+const publicSourceDir = path.join(backendDir, "src", "public");
+if (existsSync(publicSourceDir)) {
+  cpSync(publicSourceDir, path.join(runtimeDir, "public"), {
+    recursive: true,
+  });
 }
 
 copyFileSync(process.execPath, path.join(nodeDir, nodeExecutableName));

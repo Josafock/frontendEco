@@ -32,6 +32,7 @@ export declare class ResultsService {
     private groupResultValues;
     private drawResultTableHeader;
     private drawResultGroupTitle;
+    private drawCenteredResultHeading;
     private getStudyDetailsMap;
     private buildPdfBufferWithOptions;
     private buildServicePdfBufferWithOptions;
